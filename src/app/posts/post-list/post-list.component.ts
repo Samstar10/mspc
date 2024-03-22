@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { Post } from '../../post';
 import { PostsService } from '../../posts.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-post-list',
@@ -23,11 +24,19 @@ export class PostListComponent {
 
   // Making it bindable from the parent
   posts: Post[] = []
+  private postsSub!: Subscription
 
   constructor(public service: PostsService) { }
 
   ngOnInit() {
     this.posts = this.service.getPosts()
+    this.postsSub = this.service.getPostUpdateListener().subscribe((posts: Post[]) => {
+      this.posts = posts
+    })
+  }
+
+  ngOnDestroy() {
+    this.postsSub.unsubscribe()
   }
 }
 
