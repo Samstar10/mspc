@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import{ MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { Post } from '../../post';
 
 @Component({
   selector: 'app-post-create',
@@ -24,10 +25,10 @@ export class PostCreateComponent {
   enteredTitle = '';
   enteredContent = ''
   // Emit our own event
-  @Output() postCreated = new EventEmitter()
+  @Output() postCreated = new EventEmitter<Post>()
 
   onAddPost() {
-    const post = {
+    const post: Post = {
       title: this.enteredTitle,
       content: this.enteredContent
     }
