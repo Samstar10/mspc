@@ -13,6 +13,11 @@ app.use('/api/posts',(req, res, next) => {
             id: 'jdccsj',
             title: 'Second Post',
             content: 'This is the second post'
+        },
+        {
+            id: 'biiwwkn',
+            title: 'Third Post',
+            content: 'This is the third post'
         }
     ]
     res.status(200).json({
