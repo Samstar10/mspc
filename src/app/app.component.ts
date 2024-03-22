@@ -17,5 +17,14 @@ import { PostListComponent } from './posts/post-list/post-list.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'mspc';
+  storedPosts: any = []
+
+  onPostAdded(post: any) {
+    this.storedPosts.push(post)
+  }
 }
+
+
+// In this parent component, since it's the common point between the two child components, we make the adding
+// function here and pass it to the child component through property and event binding.
+// The posts in the post list is binded to the storedPosts and post created is binded to the onPostAdded function

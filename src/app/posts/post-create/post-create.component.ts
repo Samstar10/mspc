@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -21,11 +21,24 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './post-create.component.css'
 })
 export class PostCreateComponent {
-  enteredValue = '';
-  newPost = 'NO CONTENT'
+  enteredTitle = '';
+  enteredContent = ''
+  // Emit our own event
+  @Output() postCreated = new EventEmitter()
 
   onAddPost() {
-    this.newPost = this.enteredValue
+    const post = {
+      title: this.enteredTitle,
+      content: this.enteredContent
+    }
+    // Emit the event
+    this.postCreated.emit(post)
+    // Then use it in the parent component
   }
 
 }
+
+
+// One post created and emitted as an event
+// The @output decorator is used to emit an event and makes our post available outside the component
+// The emit() method is used to emit the event i.e make the post available outside the component
