@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core'
 import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { Post } from '../../post';
+import { PostsService } from '../../posts.service';
 
 @Component({
   selector: 'app-post-list',
@@ -22,6 +23,8 @@ export class PostListComponent {
 
   // Making it bindable from the parent
   @Input() posts: Post[] = []
+
+  constructor(public service: PostsService) { }
 }
 
 // In this post list component we instantiate the posts array with an empty array and make it bindable from the
