@@ -25,6 +25,10 @@ export class PostListComponent {
   @Input() posts: Post[] = []
 
   constructor(public service: PostsService) { }
+
+  ngOnInit() {
+    this.posts = this.service.getPosts()
+  }
 }
 
 // In this post list component we instantiate the posts array with an empty array and make it bindable from the

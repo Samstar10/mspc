@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import{ MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { Post } from '../../post';
+import { PostsService } from '../../posts.service';
 
 @Component({
   selector: 'app-post-create',
@@ -24,20 +25,16 @@ import { Post } from '../../post';
 export class PostCreateComponent {
   enteredTitle = '';
   enteredContent = ''
-  // Emit our own event
-  @Output() postCreated = new EventEmitter<Post>()
+
+  constructor(public service: PostsService) { }
 
   onAddPost(form: NgForm) {
     if (form.invalid) {
       return
     }
-    const post: Post = {
-      title: form.value.title,
-      content: form.value.content
-    }
-    // Emit the event
-    this.postCreated.emit(post)
-    // Then use it in the parent component
+    
+    this.service.addPost(form.value.title, form.value.content)
+    form.resetForm()
   }
 
 }
