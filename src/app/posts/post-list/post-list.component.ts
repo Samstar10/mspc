@@ -22,7 +22,7 @@ export class PostListComponent {
   // ]
 
   // Making it bindable from the parent
-  @Input() posts: Post[] = []
+  posts: Post[] = []
 
   constructor(public service: PostsService) { }
 

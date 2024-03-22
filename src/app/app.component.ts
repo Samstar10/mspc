@@ -3,7 +3,6 @@ import { RouterOutlet } from '@angular/router';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { HeaderComponent } from './header/header.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
-import { Post } from './post';
 
 @Component({
   selector: 'app-root',
@@ -18,11 +17,7 @@ import { Post } from './post';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  storedPosts: Post[] = []
-
-  onPostAdded(post: any) {
-    this.storedPosts.push(post)
-  }
+  
 }
 
 
