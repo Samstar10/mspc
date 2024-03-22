@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import{ MatCardModule } from '@angular/material/card';
@@ -27,10 +27,13 @@ export class PostCreateComponent {
   // Emit our own event
   @Output() postCreated = new EventEmitter<Post>()
 
-  onAddPost() {
+  onAddPost(form: NgForm) {
+    if (form.invalid) {
+      return
+    }
     const post: Post = {
-      title: this.enteredTitle,
-      content: this.enteredContent
+      title: form.value.title,
+      content: form.value.content
     }
     // Emit the event
     this.postCreated.emit(post)
