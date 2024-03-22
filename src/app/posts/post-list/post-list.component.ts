@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core'
 import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatButtonModule } from '@angular/material/button';
 import { Post } from '../../post';
 import { PostsService } from '../../posts.service';
 import { Subscription } from 'rxjs';
@@ -10,7 +11,8 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [
     MatExpansionModule,
-    CommonModule
+    CommonModule,
+    MatButtonModule
   ],
   templateUrl: './post-list.component.html',
   styleUrl: './post-list.component.css'
