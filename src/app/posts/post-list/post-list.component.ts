@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
     CommonModule,
     MatButtonModule
   ],
+  providers: [PostsService],
   templateUrl: './post-list.component.html',
   styleUrl: './post-list.component.css'
 })
@@ -31,7 +32,7 @@ export class PostListComponent {
   constructor(public service: PostsService) { }
 
   ngOnInit() {
-    this.posts = this.service.getPosts()
+    this.service.getPosts()
     this.postsSub = this.service.getPostUpdateListener().subscribe((posts: Post[]) => {
       this.posts = posts
     })

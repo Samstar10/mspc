@@ -19,6 +19,7 @@ import { PostsService } from '../../posts.service';
     MatCardModule,
     MatButtonModule
   ],
+  providers: [PostsService],
   templateUrl: './post-create.component.html',
   styleUrl: './post-create.component.css'
 })

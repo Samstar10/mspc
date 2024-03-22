@@ -3,6 +3,8 @@ import { RouterOutlet } from '@angular/router';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { HeaderComponent } from './header/header.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
+import { PostsService } from './posts.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +13,10 @@ import { PostListComponent } from './posts/post-list/post-list.component';
     RouterOutlet,
     PostCreateComponent,
     HeaderComponent,
-    PostListComponent
+    PostListComponent,
+    HttpClientModule
   ],
+  providers: [PostsService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
