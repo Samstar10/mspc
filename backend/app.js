@@ -1,9 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const Post = require('./models/post');
 
 const app = express();
+
+mongoose.connect('mongodb+srv://samuelmuli95:CQd0jhCebPtjc7Bn@cluster0.nmhfkuj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+    .then(() => {
+        console.log('Connected to database!')
+    })
+    .catch(() => {
+        console.log('Connection failed!')
+    })
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -57,3 +66,4 @@ module.exports = app
 
 // CQd0jhCebPtjc7Bn
 // samuelmuli95
+// mongodb+srv://samuelmuli95:CQd0jhCebPtjc7Bn@cluster0.nmhfkuj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
