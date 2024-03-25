@@ -38,7 +38,7 @@ export class PostCreateComponent {
     form.resetForm()
 
     // Reloading the page
-    window.location.reload()
+    // window.location.reload()
   }
 
 }
