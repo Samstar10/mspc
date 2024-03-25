@@ -24,8 +24,6 @@ import { PostsService } from '../../posts.service';
   styleUrl: './post-create.component.css'
 })
 export class PostCreateComponent {
-  enteredTitle = '';
-  enteredContent = ''
 
   constructor(public service: PostsService) { }
 
@@ -35,7 +33,12 @@ export class PostCreateComponent {
     }
     
     this.service.addPost(form.value.title, form.value.content)
+
+    // Resetting the form
     form.resetForm()
+
+    // Reloading the page
+    window.location.reload()
   }
 
 }

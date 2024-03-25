@@ -67,6 +67,11 @@ app.delete("/api/posts/:id", (req, res, next) => {
             message: 'Post deleted!'
         })
     })
+    .catch(error => {
+        res.status(500).json({
+            message: 'Deleting posts failed!'
+        })
+    })
 })
 
 module.exports = app
