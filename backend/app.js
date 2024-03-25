@@ -30,33 +30,32 @@ app.post('/api/posts', (req, res, next) => {
         content: req.body.content
     })
 
-    console.log(post)
-    res.status(201).json({
-        message: 'Post added successfully!',
+    post.save()
+    .then(createdPost => {
+        res.status(201).json({
+            message: 'Post added successfully!',
+            postId: createdPost._id
+        })
+    })
+    .catch(error => {
+        res.status(500).json({
+            message: 'Creating a post failed!'
+        })
     })
 })
 
 app.get('/api/posts',(req, res, next) => {
-    const posts = [
-        {
-            id: 'sjdncls',
-            title: 'First Post',
-            content: 'This is the first post'
-        },
-        {
-            id: 'jdccsj',
-            title: 'Second Post',
-            content: 'This is the second post'
-        },
-        {
-            id: 'biiwwkn',
-            title: 'Third Post',
-            content: 'This is the third post'
-        }
-    ]
-    res.status(200).json({
-        message: 'Posts fetched successfully!',
-        posts: posts
+    Post.find()
+    .then(posts => {
+        res.status(200).json({
+            message: 'Posts fetched successfully!',
+            posts: posts
+        })
+    })
+    .catch(error => {
+        res.status(500).json({
+            message: 'Fetching posts failed!'
+        })
     })
 })
 
