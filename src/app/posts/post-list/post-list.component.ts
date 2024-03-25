@@ -41,6 +41,10 @@ export class PostListComponent {
   ngOnDestroy() {
     this.postsSub.unsubscribe()
   }
+
+  onDelete(id: string) {
+    this.service.deletePost(id)
+  }
 }
 
 // In this post list component we instantiate the posts array with an empty array and make it bindable from the
