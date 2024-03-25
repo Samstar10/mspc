@@ -47,3 +47,8 @@ app.get('/api/posts',(req, res, next) => {
 })
 
 module.exports = app
+
+
+
+// CQd0jhCebPtjc7Bn
+// samuelmuli95
