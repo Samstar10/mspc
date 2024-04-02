@@ -6,6 +6,7 @@ import { Post } from '../../post';
 import { PostsService } from '../../posts.service';
 import { Subscription } from 'rxjs';
 import { RouterModule } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-post-list',
@@ -14,7 +15,8 @@ import { RouterModule } from '@angular/router';
     MatExpansionModule,
     CommonModule,
     MatButtonModule,
-    RouterModule
+    RouterModule,
+    MatProgressSpinnerModule
   ],
   providers: [PostsService],
   templateUrl: './post-list.component.html',
@@ -29,13 +31,16 @@ export class PostListComponent {
 
   // Making it bindable from the parent
   posts: Post[] = []
+  isLoading = false
   private postsSub!: Subscription
 
   constructor(public service: PostsService) { }
 
   ngOnInit() {
+    this.isLoading = true
     this.service.getPosts()
     this.postsSub = this.service.getPostUpdateListener().subscribe((posts: Post[]) => {
+      this.isLoading = false
       this.posts = posts
     })
   }

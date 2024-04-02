@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import{ MatCardModule } from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Post } from '../../post';
 import { PostsService } from '../../posts.service';
 import { ActivatedRoute, RouterModule, Router, ParamMap } from '@angular/router';
@@ -19,7 +20,8 @@ import { ActivatedRoute, RouterModule, Router, ParamMap } from '@angular/router'
     MatInputModule,
     MatCardModule,
     MatButtonModule,
-    RouterModule
+    RouterModule,
+    MatProgressSpinnerModule
   ],
   providers: [PostsService],
   templateUrl: './post-create.component.html',
@@ -29,6 +31,7 @@ export class PostCreateComponent {
   private mode = 'create';
   private postId: any
   post!: any; 
+  isLoading = false;
 
   constructor(public service: PostsService, public route: ActivatedRoute, public router: Router) { }
 
@@ -37,7 +40,9 @@ export class PostCreateComponent {
       if (params.has('id')) {
         this.mode = 'edit'
         this.postId = params.get('id')
+        this.isLoading = true
         this.service.getPost(this.postId).subscribe(postData => {
+          this.isLoading = false
           this.post = {
             id: postData._id,
             title: postData.title,
@@ -56,6 +61,7 @@ export class PostCreateComponent {
     if (form.invalid) {
       return
     }
+    this.isLoading = true
     if(this.mode === 'create') {
       this.service.addPost(form.value.title, form.value.content)
     }else {
@@ -64,8 +70,6 @@ export class PostCreateComponent {
 
     // Resetting the form
     form.resetForm()
-
-    this.router.navigate([''])
   }
 }
 
