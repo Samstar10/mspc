@@ -7,6 +7,7 @@ import{ MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { Post } from '../../post';
 import { PostsService } from '../../posts.service';
+import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-create',
@@ -17,15 +18,30 @@ import { PostsService } from '../../posts.service';
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    RouterModule
   ],
   providers: [PostsService],
   templateUrl: './post-create.component.html',
   styleUrl: './post-create.component.css'
 })
 export class PostCreateComponent {
+  private mode = 'create';
+  private postId: any
 
-  constructor(public service: PostsService) { }
+  constructor(public service: PostsService, public route: ActivatedRoute, public router: Router) { }
+
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      if (params.has('id')) {
+        this.mode = 'edit'
+        this.postId = params.get('id')
+      }else {
+        this.mode = 'create'
+        this.postId = null
+      }
+    })
+  }
 
   onAddPost(form: NgForm) {
     if (form.invalid) {
@@ -37,10 +53,8 @@ export class PostCreateComponent {
     // Resetting the form
     form.resetForm()
 
-    // Reloading the page
-    // window.location.reload()
+    this.router.navigate([''])
   }
-
 }
 
 
