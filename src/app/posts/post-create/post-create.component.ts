@@ -37,7 +37,13 @@ export class PostCreateComponent {
       if (params.has('id')) {
         this.mode = 'edit'
         this.postId = params.get('id')
-        this.post = this.service.getPost(this.postId)
+        this.service.getPost(this.postId).subscribe(postData => {
+          this.post = {
+            id: postData._id,
+            title: postData.title,
+            content: postData.content
+          }
+        })
         console.log(this.post)
       }else {
         this.mode = 'create'
