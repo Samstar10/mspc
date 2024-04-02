@@ -28,7 +28,7 @@ import { ActivatedRoute, RouterModule, Router, ParamMap } from '@angular/router'
 export class PostCreateComponent {
   private mode = 'create';
   private postId: any
-  private post!: Post
+  post!: any; 
 
   constructor(public service: PostsService, public route: ActivatedRoute, public router: Router) { }
 
@@ -37,7 +37,8 @@ export class PostCreateComponent {
       if (params.has('id')) {
         this.mode = 'edit'
         this.postId = params.get('id')
-        this.post = this.service.getPost(this.postId) as Post
+        this.post = this.service.getPost(this.postId)
+        console.log(this.post)
       }else {
         this.mode = 'create'
         this.postId = null
@@ -45,12 +46,15 @@ export class PostCreateComponent {
     })
   }
 
-  onAddPost(form: NgForm) {
+  onSavePost(form: NgForm) {
     if (form.invalid) {
       return
     }
-    
-    this.service.addPost(form.value.title, form.value.content)
+    if(this.mode === 'create') {
+      this.service.addPost(form.value.title, form.value.content)
+    }else {
+      this.service.updatePost(this.postId, form.value.title, form.value.content)
+    }
 
     // Resetting the form
     form.resetForm()

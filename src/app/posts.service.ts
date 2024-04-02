@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Post } from './post';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
@@ -52,6 +52,23 @@ export class PostsService {
       post.id = postId
       this.posts.push(post)
       this.postsUpdated.next([...this.posts])
+    })
+  }
+
+  updatePost(id: string, title: string, content: string) {
+    const post: Post = {
+      id: id,
+      title: title,
+      content: content
+    }
+    this.http.put('http://localhost:3000/api/posts/' + id, post)
+    .subscribe((resp) => {
+      console.log(resp)
+      // const updatedPosts = [...this.posts]
+      // const oldPostIndex = updatedPosts.findIndex(p => p.id === post.id)
+      // updatedPosts[oldPostIndex] = post
+      // this.posts = updatedPosts
+      // this.postsUpdated.next([...this.posts])
     })
   }
 
