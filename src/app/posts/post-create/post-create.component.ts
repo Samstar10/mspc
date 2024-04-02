@@ -7,7 +7,7 @@ import{ MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { Post } from '../../post';
 import { PostsService } from '../../posts.service';
-import { ActivatedRoute, RouterModule, Router } from '@angular/router';
+import { ActivatedRoute, RouterModule, Router, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-post-create',
@@ -28,14 +28,16 @@ import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 export class PostCreateComponent {
   private mode = 'create';
   private postId: any
+  private post!: Post
 
   constructor(public service: PostsService, public route: ActivatedRoute, public router: Router) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params: ParamMap) => {
       if (params.has('id')) {
         this.mode = 'edit'
         this.postId = params.get('id')
+        this.post = this.service.getPost(this.postId) as Post
       }else {
         this.mode = 'create'
         this.postId = null
