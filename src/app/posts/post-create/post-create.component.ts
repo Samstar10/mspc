@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, NgForm, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -9,6 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Post } from '../../post';
 import { PostsService } from '../../posts.service';
 import { ActivatedRoute, RouterModule, Router, ParamMap } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-post-create',
@@ -21,7 +22,8 @@ import { ActivatedRoute, RouterModule, Router, ParamMap } from '@angular/router'
     MatCardModule,
     MatButtonModule,
     RouterModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    ReactiveFormsModule
   ],
   providers: [PostsService],
   templateUrl: './post-create.component.html',
@@ -32,10 +34,15 @@ export class PostCreateComponent {
   private postId: any
   post!: any; 
   isLoading = false;
+  form!: FormGroup;
 
   constructor(public service: PostsService, public route: ActivatedRoute, public router: Router) { }
 
   ngOnInit() {
+    this.form = new FormGroup({
+      title: new FormControl(null, {validators: [Validators.required, Validators.minLength(3)]}),
+      content: new FormControl(null, {validators: [Validators.required]})
+    })
     this.route.paramMap.subscribe((params: ParamMap) => {
       if (params.has('id')) {
         this.mode = 'edit'
@@ -48,6 +55,10 @@ export class PostCreateComponent {
             title: postData.title,
             content: postData.content
           }
+          this.form.setValue({
+            title: this.post.title,
+            content: this.post.content
+          })
         })
         console.log(this.post)
       }else {
@@ -57,19 +68,19 @@ export class PostCreateComponent {
     })
   }
 
-  onSavePost(form: NgForm) {
-    if (form.invalid) {
+  onSavePost() {
+    if (this.form.invalid) {
       return
     }
     this.isLoading = true
     if(this.mode === 'create') {
-      this.service.addPost(form.value.title, form.value.content)
+      this.service.addPost(this.form.value.title, this.form.value.content)
     }else {
-      this.service.updatePost(this.postId, form.value.title, form.value.content)
+      this.service.updatePost(this.postId, this.form.value.title, this.form.value.content)
     }
 
     // Resetting the form
-    form.resetForm()
+    this.form.reset()
   }
 }
 
