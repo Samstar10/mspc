@@ -10,26 +10,26 @@ import { Router } from '@angular/router';
 })
 export class PostsService {
   private posts: Post[] = []
-  private postsUpdated = new Subject<Post[]>()
+  private postsUpdated = new Subject<{posts: Post[], maxPosts: number}>()
 
   constructor(private http: HttpClient, private router: Router) { }
 
   getPosts(postsPerPage: number, currentPage: number) {
     const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`
-    this.http.get<{message: string, posts: any}>('http://localhost:3000/api/posts' + queryParams)
+    this.http.get<{message: string, posts: any, maxPosts: number}>('http://localhost:3000/api/posts' + queryParams)
     .pipe(map((postData: any) => {
-      return postData.posts.map((post: any) => {
+      return {posts: postData.posts.map((post: any) => {
         return {
           title: post.title,
           content: post.content,
           id: post._id,
           imagePath: post.imagePath
         }
-      })
+      }), maxPosts: postData.maxPosts}
     }))
     .subscribe((posts) => {
-      this.posts = posts
-      this.postsUpdated.next([...this.posts])
+      this.posts = posts.posts
+      this.postsUpdated.next({posts: [...this.posts], maxPosts: posts.maxPosts})
     })
   }
 
