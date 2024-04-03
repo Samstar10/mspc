@@ -34,7 +34,7 @@ export class PostListComponent {
   // Making it bindable from the parent
   posts: Post[] = []
   isLoading = false
-  totalPosts = 10
+  totalPosts = 0
   postsPerPage = 2
   currentPage = 1
   pageSizeOptions = [1, 2, 5, 10]
@@ -45,9 +45,10 @@ export class PostListComponent {
   ngOnInit() {
     this.isLoading = true
     this.service.getPosts(this.postsPerPage, this.currentPage)
-    this.postsSub = this.service.getPostUpdateListener().subscribe((posts: Post[]) => {
+    this.postsSub = this.service.getPostUpdateListener().subscribe((postData: {posts: Post[], maxPosts: number}) => {
       this.isLoading = false
-      this.posts = posts
+      this.totalPosts = postData.maxPosts
+      this.posts = postData.posts
     })
   }
 
@@ -63,7 +64,10 @@ export class PostListComponent {
   }
 
   onDelete(id: string) {
-    this.service.deletePost(id)
+    this.isLoading = true
+    this.service.deletePost(id).subscribe(() => {
+      this.service.getPosts(this.postsPerPage, this.currentPage)
+    })
   }
 }
 

@@ -92,7 +92,7 @@ router.get('/',(req, res, next) => {
     postQuery
     .then(posts => {
         fetchedPosts = posts
-        return Post.count()
+        return Post.countDocuments()
     })
     .then(count => {
         res.status(200).json({
@@ -103,7 +103,8 @@ router.get('/',(req, res, next) => {
     })
     .catch(error => {
         res.status(500).json({
-            message: 'Fetching posts failed!'
+            message: 'Fetching posts failed!',
+            error: error.message
         })
     })
 })
