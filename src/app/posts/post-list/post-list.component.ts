@@ -35,7 +35,8 @@ export class PostListComponent {
   posts: Post[] = []
   isLoading = false
   totalPosts = 10
-  postsPerPage = 5
+  postsPerPage = 2
+  currentPage = 1
   pageSizeOptions = [1, 2, 5, 10]
   private postsSub!: Subscription
 
@@ -43,7 +44,7 @@ export class PostListComponent {
 
   ngOnInit() {
     this.isLoading = true
-    this.service.getPosts()
+    this.service.getPosts(this.postsPerPage, this.currentPage)
     this.postsSub = this.service.getPostUpdateListener().subscribe((posts: Post[]) => {
       this.isLoading = false
       this.posts = posts
@@ -51,7 +52,9 @@ export class PostListComponent {
   }
 
   onChangedPage(pageData: PageEvent) {
-    
+    this.currentPage = pageData.pageIndex + 1
+    this.postsPerPage = pageData.pageSize
+    this.service.getPosts(this.postsPerPage, this.currentPage)
   }
 
   ngOnDestroy() {
