@@ -7,6 +7,7 @@ import { PostsService } from '../../posts.service';
 import { Subscription } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-post-list',
@@ -16,7 +17,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CommonModule,
     MatButtonModule,
     RouterModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatPaginatorModule
   ],
   providers: [PostsService],
   templateUrl: './post-list.component.html',
@@ -32,6 +34,9 @@ export class PostListComponent {
   // Making it bindable from the parent
   posts: Post[] = []
   isLoading = false
+  totalPosts = 10
+  postsPerPage = 5
+  pageSizeOptions = [1, 2, 5, 10]
   private postsSub!: Subscription
 
   constructor(public service: PostsService) { }
@@ -43,6 +48,10 @@ export class PostListComponent {
       this.isLoading = false
       this.posts = posts
     })
+  }
+
+  onChangedPage(pageData: PageEvent) {
+    
   }
 
   ngOnDestroy() {
