@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 })
 
 app.use("/api/posts" ,PostRoutes)
-app.use("/api/user" ,userRoutes)
+app.use("/api/users" ,userRoutes)
 
 module.exports = app
 

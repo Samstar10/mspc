@@ -6,6 +6,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AuthService } from '../auth.service';
+
 
 @Component({
   selector: 'app-signup',
@@ -19,13 +21,19 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CommonModule,
     FormsModule
   ],
+  providers: [AuthService],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
 export class SignupComponent {
   isLoading = false
 
+  constructor( public authService: AuthService){}
+
   onSignup(form: NgForm) {
-    console.log(form.value);
+    if (form.invalid){
+      return
+    }
+    this.authService.createUser(form.value.email, form.value.password)
   }
 }
