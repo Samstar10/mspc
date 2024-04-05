@@ -5,6 +5,7 @@ import { HeaderComponent } from './header/header.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
 import { PostsService } from './posts.service';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,11 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  
+
+  constructor(private authService: AuthService){}
+  OnInit() {
+    this.authService.autoAuthUser()
+  }
 }
 
 
