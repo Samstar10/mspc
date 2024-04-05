@@ -11,6 +11,7 @@ import { PostsService } from '../../posts.service';
 import { ActivatedRoute, RouterModule, Router, ParamMap } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { mimeType } from './mime-type.validator';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-post-create',
@@ -24,7 +25,8 @@ import { mimeType } from './mime-type.validator';
     MatButtonModule,
     RouterModule,
     MatProgressSpinnerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [PostsService],
   templateUrl: './post-create.component.html',
@@ -38,7 +40,11 @@ export class PostCreateComponent {
   form!: FormGroup;
   imagePreview!: string
 
-  constructor(public service: PostsService, public route: ActivatedRoute, public router: Router) { }
+  constructor(
+    public service: PostsService, 
+    public route: ActivatedRoute, 
+    public router: Router,
+    public http: HttpClient) { }
 
   ngOnInit() {
     this.form = new FormGroup({

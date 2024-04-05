@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-post-list',
@@ -18,7 +19,8 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
     MatButtonModule,
     RouterModule,
     MatProgressSpinnerModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    HttpClientModule
   ],
   providers: [PostsService],
   templateUrl: './post-list.component.html',

@@ -28,7 +28,7 @@ const storage = multer.diskStorage({
     }
 })
 
-router.post('/', checkAuth , multer({storage: storage}).single('image'), (req, res, next) => {
+router.post('/', checkAuth, multer({storage: storage}).single('image'), (req, res, next) => {
     const url = req.protocol + '://' + req.get('host')
     const post = new Post({
         title: req.body.title,
@@ -48,7 +48,8 @@ router.post('/', checkAuth , multer({storage: storage}).single('image'), (req, r
     })
     .catch(error => {
         res.status(500).json({
-            message: 'Creating a post failed!'
+            message: 'Creating a post failed!',
+            error: error.message
         })
     })
 })
