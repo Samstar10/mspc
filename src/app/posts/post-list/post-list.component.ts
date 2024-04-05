@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-post-list',
@@ -40,9 +41,11 @@ export class PostListComponent {
   postsPerPage = 2
   currentPage = 1
   pageSizeOptions = [1, 2, 5, 10]
+  userIsAuthenticated = false
   private postsSub!: Subscription
+  private authStatusSub!: Subscription
 
-  constructor(public service: PostsService) { }
+  constructor(public service: PostsService, private authService: AuthService) { }
 
   ngOnInit() {
     this.isLoading = true
@@ -52,6 +55,12 @@ export class PostListComponent {
       this.totalPosts = postData.maxPosts
       this.posts = postData.posts
     })
+    this.userIsAuthenticated = this.authService.getIsAuth()
+    this.authStatusSub = this.authService
+      .getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        this.userIsAuthenticated = isAuthenticated
+      })
   }
 
   onChangedPage(pageData: PageEvent) {
